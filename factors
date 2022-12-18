@@ -1,0 +1,83 @@
+#include <stdio.h>
+
+#include <stdlib.h>
+
+
+
+void factorize(int n, int *p, int *q) {
+
+  // Find the smallest factor of n
+
+  int i = 2;
+
+  while (i * i <= n) {
+
+    if (n % i == 0) {
+
+      *p = i;
+
+      *q = n / i;
+
+      return;
+
+    }
+
+    i++;
+
+  }
+
+  *p = n;
+
+  *q = 1;
+
+}
+
+
+
+int main(int argc, char *argv[]) {
+
+  if (argc != 2) {
+
+    printf("Usage: %s <file>\n", argv[0]);
+
+    return 1;
+
+  }
+
+
+
+  // Open the file for reading
+
+  FILE *f = fopen(argv[1], "r");
+
+  if (!f) {
+
+    perror("Error opening file");
+
+    return 1;
+
+  }
+
+
+
+  // Read each line and factorize the number
+
+  int n, p, q;
+
+  while (fscanf(f, "%d", &n) == 1) {
+
+    factorize(n, &p, &q);
+
+    printf("%d=%d*%d\n", n, p, q);
+
+  }
+
+
+
+  // Close the file
+
+  fclose(f);
+
+  return 0;
+
+}
