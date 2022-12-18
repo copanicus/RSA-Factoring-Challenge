@@ -1,49 +1,28 @@
 #!/usr/bin/env bash
 # is a factors challenge
 
-check_factor()
-{
-	if [ $# -ne 3 ];
-        then
-                args=("$@")
-                count=0
-                num2=1
-                for a in ${args[*]};
-                do
-                        if [ $count -gt 1 ];
-                        then
-                                num2=$(echo $a*$num2 | bc)
-                        fi
-                        count=$((count + 1))
-                done
-        else
-                num2=$3
-        fi
+import sys
 
-        num1=$2
-        num=$(echo "$1" | tr ':' '=')
+def factors(n):
+    """Returns a list of the factors of n"""
+    return [i for i in range(2, n//2 + 1) if n % i == 0]
 
-        result=$(echo "if($num2 > $num1) 1 else 0" | bc)
-	        if ((result == 1)); then
-		        numcp=$num1
-		        num1=$num2
-		        num2=$numcp
-                fi
+def main():
+    # Read the file name from the command line
+    filename = sys.argv[1]
 
-        echo "$num$num1*$num2"
-}
+    # Open the file and read the numbers
+    with open(filename, 'r') as f:
+        numbers = [int(line.strip()) for line in f]
 
-if [ $# -ne 1 ]
-then
-        echo 'Usage: factors <file>'
-        exit 1
-else
+    # Factorize each number and print the result
+    for n in numbers:
+        p, q = (n, 1)
+        for i in range(2, n//2 + 1):
+            if n % i == 0:
+                p, q = i, n//i
+                break
+        print(f"{n} = {p} * {q}")
 
-        while read i
-        do
-
-                result=$(factor "$i")
-                check_factor $result
-
-        done < "$1"
-fi
+if __name__ == '__main__':
+    main()
