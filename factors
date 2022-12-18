@@ -1,8 +1,4 @@
-#include <stdio.h>
-
-#include <stdlib.h>
-
-
+#!/usr/bin/env bash
 
 void factorize(int n, int *p, int *q) {
 
