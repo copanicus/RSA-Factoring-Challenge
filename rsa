@@ -1,22 +1,35 @@
 #!/usr/bin/python3
 
-import sys
+from sys import argv
 
-"""Defining the integer"""
 
-def factorize(n):
-    for i in range(2, int(n**0.5)+1):
-        if n % i == 0:
-            return (i, n//i)
-    return (n, 1)
 
-"""Defining the factors"""
+with open(argv[1]) as f:
 
-def main():
-    for line in sys.stdin:
-        n = int(line.strip())
-        p, q = factorize(n)
-        print(f"{n} = {p} * {q}")
+    for line in f:
 
-if __name__ = ""__main__":
-    main()
+        num = int(line)
+
+        print("{:d}=".format(num), end="")
+
+        if num % 2 == 0:
+
+            print("{}*2".format(num//2))
+
+            continue
+
+        for i in range(3, num, 2):
+
+            if num % i == 0:
+
+                factor = num//i
+
+                for j in range(3, factor, 2):
+
+                    if factor % j == 0 or i % j == 0:
+
+                        break
+
+                print("{}*{}".format(factor, i))
+
+                break
